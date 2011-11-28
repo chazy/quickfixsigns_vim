@@ -487,9 +487,10 @@ endf
 
 
 function! s:BufferSigns(bufnr) "{{{3
-    if a:bufnr == -1
+    if bufnr(a:bufnr) == -1
         return []
     endif
+    let l:signss = ''
     redir => l:signss
     exec 'silent sign place buffer='. a:bufnr
     redir END
@@ -499,14 +500,10 @@ function! s:BufferSigns(bufnr) "{{{3
             call remove(signs, 0, 1)
         endif
     else
-        echohl WarningMsg
-        echom "DEBUG quickfixsigns: BufferSigns:" a:bufnr
-        echohl NONE
         let signs = []
     endif
     return signs
 endf
-
 
 function! s:GetSign(sign, item) "{{{3
     if a:sign[0] == '*'
